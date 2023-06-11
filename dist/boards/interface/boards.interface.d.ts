@@ -22,14 +22,24 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { createStockDTO } from './dto/boards.dto';
-import { BoardsData, StockDocument, Stock } from './interface/boards.interface';
-import { Model } from 'mongoose';
-export declare class BoardsService {
-    private stockModel;
-    constructor(stockModel: Model<StockDocument>);
-    name(url: string[]): Promise<BoardsData>;
-    createStock(createStockDTO: createStockDTO): Promise<import("mongoose").Document<unknown, {}, StockDocument> & Omit<Stock & import("mongoose").Document<any, any, any> & {
-        _id: import("mongoose").Types.ObjectId;
-    }, never>>;
+import { Document } from 'mongoose';
+export type StockDocument = Stock & Document;
+export declare class Stock {
+    stockName: string;
+    yesterday_value: number;
+    current_value: number;
+    fluctuation_rate: number;
+    profit: number;
 }
+export interface BoardData {
+    change_percent: string;
+    name: string;
+}
+export interface BoardsData {
+    currentPercent: BoardData[];
+}
+export declare const CreateStockSchema: import("mongoose").Schema<Stock, import("mongoose").Model<Stock, any, any, any, Document<unknown, any, Stock> & Omit<Stock & {
+    _id: import("mongoose").Types.ObjectId;
+}, never>, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Stock, Document<unknown, {}, import("mongoose").FlatRecord<Stock>> & Omit<import("mongoose").FlatRecord<Stock> & {
+    _id: import("mongoose").Types.ObjectId;
+}, never>>;

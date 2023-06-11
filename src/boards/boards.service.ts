@@ -178,38 +178,54 @@
 // }
 import { Controller, Get, Injectable } from '@nestjs/common';
 import * as puppeteer from 'puppeteer';
+import { InjectModel } from '@nestjs/mongoose';
 import { createStockDTO } from './dto/boards.dto';
+import {
+  BoardsData,
+  BoardData,
+  StockDocument,
+  Stock,
+} from './interface/boards.interface';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class BoardsService {
-  async name(url: string) {
-    const browser = await puppeteer.launch({ headless: false });
-    let arr: { change_percent: string; name: string }[] = [];
+  constructor(
+    @InjectModel(Stock.name) private stockModel: Model<StockDocument>,
+  ) {}
+  async name(url: string[]): Promise<BoardsData> {
+    const browser: puppeteer.Browser = await puppeteer.launch({
+      headless: false,
+    });
+    let arr: BoardData[] = [];
 
     for (let urls of url) {
-      const page = await browser.newPage();
+      const page: puppeteer.Page = await browser.newPage();
       await page.goto(urls, { waitUntil: 'networkidle2' });
 
-      const result = await page.evaluate(() => {
-        const nameElement = document.querySelector(
+      const result: BoardData = await page.evaluate(() => {
+        const nameElement: HTMLElement | null = document.querySelector(
           'div.instrument-price_instrument-price__xfgbB > div.text-xl > span.instrument-price_change-percent__bT4yt',
         );
 
-        const newElement = document.querySelector(
+        const newElement: HTMLElement | null = document.querySelector(
           'div.instrument-header_instrument-name__VxZ1O > h1',
         );
 
-        let change_percent = nameElement
+        let change_percent: string = nameElement
           ? nameElement.textContent
           : 'No data found';
-        let name = newElement ? newElement.textContent : 'No data found';
+        let name: string = newElement
+          ? newElement.textContent
+          : 'No data found';
         return { change_percent, name };
       });
 
-      const arrName = {
+      const arrName: BoardData = {
         change_percent: result.change_percent,
         name: result.name,
       };
+
       arr.push(arrName);
       await page.close();
     }
@@ -219,6 +235,7 @@ export class BoardsService {
   }
 
   async createStock(createStockDTO: createStockDTO) {
-    return;
+    const createtest = new this.stockModel(createStockDTO);
+    return createtest.save();
   }
 }

@@ -9,20 +9,32 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createStockDTO = void 0;
-const class_transformer_1 = require("class-transformer");
-const class_validator_1 = require("class-validator");
-class createStockDTO {
-}
-exports.createStockDTO = createStockDTO;
+exports.CreateStockSchema = exports.Stock = void 0;
+const mongoose_1 = require("@nestjs/mongoose");
+let Stock = exports.Stock = class Stock {
+};
 __decorate([
-    (0, class_transformer_1.Expose)(),
-    (0, class_validator_1.IsString)(),
+    (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
-], createStockDTO.prototype, "stockName", void 0);
+], Stock.prototype, "stockName", void 0);
 __decorate([
-    (0, class_transformer_1.Expose)(),
-    (0, class_validator_1.IsNumber)(),
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", Number)
-], createStockDTO.prototype, "current_value", void 0);
-//# sourceMappingURL=boards.dto.js.map
+], Stock.prototype, "yesterday_value", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", Number)
+], Stock.prototype, "current_value", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", Number)
+], Stock.prototype, "fluctuation_rate", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", Number)
+], Stock.prototype, "profit", void 0);
+exports.Stock = Stock = __decorate([
+    (0, mongoose_1.Schema)({ timestamps: true })
+], Stock);
+exports.CreateStockSchema = mongoose_1.SchemaFactory.createForClass(Stock);
+//# sourceMappingURL=boards.interface.js.map

@@ -10,12 +10,14 @@ exports.BoardsModule = void 0;
 const common_1 = require("@nestjs/common");
 const boards_controller_1 = require("./boards.controller");
 const boards_service_1 = require("./boards.service");
+const boards_model_1 = require("./model/boards.model");
 let BoardsModule = exports.BoardsModule = class BoardsModule {
 };
 exports.BoardsModule = BoardsModule = __decorate([
     (0, common_1.Module)({
+        imports: [boards_model_1.StockSchema],
         controllers: [boards_controller_1.BoardsController],
-        providers: [boards_service_1.BoardsService]
+        providers: [boards_service_1.BoardsService],
     })
 ], BoardsModule);
 //# sourceMappingURL=boards.module.js.map

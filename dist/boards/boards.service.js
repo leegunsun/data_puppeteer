@@ -5,13 +5,27 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BoardsService = void 0;
 const common_1 = require("@nestjs/common");
 const puppeteer = require("puppeteer");
+const mongoose_1 = require("@nestjs/mongoose");
+const boards_interface_1 = require("./interface/boards.interface");
+const mongoose_2 = require("mongoose");
 let BoardsService = exports.BoardsService = class BoardsService {
+    constructor(stockModel) {
+        this.stockModel = stockModel;
+    }
     async name(url) {
-        const browser = await puppeteer.launch({ headless: false });
+        const browser = await puppeteer.launch({
+            headless: false,
+        });
         let arr = [];
         for (let urls of url) {
             const page = await browser.newPage();
@@ -22,7 +36,9 @@ let BoardsService = exports.BoardsService = class BoardsService {
                 let change_percent = nameElement
                     ? nameElement.textContent
                     : 'No data found';
-                let name = newElement ? newElement.textContent : 'No data found';
+                let name = newElement
+                    ? newElement.textContent
+                    : 'No data found';
                 return { change_percent, name };
             });
             const arrName = {
@@ -36,10 +52,13 @@ let BoardsService = exports.BoardsService = class BoardsService {
         return { currentPercent: arr };
     }
     async createStock(createStockDTO) {
-        return;
+        const createtest = new this.stockModel(createStockDTO);
+        return createtest.save();
     }
 };
 exports.BoardsService = BoardsService = __decorate([
-    (0, common_1.Injectable)()
+    (0, common_1.Injectable)(),
+    __param(0, (0, mongoose_1.InjectModel)(boards_interface_1.Stock.name)),
+    __metadata("design:paramtypes", [mongoose_2.Model])
 ], BoardsService);
 //# sourceMappingURL=boards.service.js.map
