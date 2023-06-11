@@ -10,31 +10,33 @@ exports.BoardsService = void 0;
 const common_1 = require("@nestjs/common");
 const puppeteer = require("puppeteer");
 let BoardsService = exports.BoardsService = class BoardsService {
-    async name() {
-        const url = 'https://m.naver.com';
-        const browser = await puppeteer.launch({
-            headless: false,
-            waitForInitialPage: true,
-        });
-        const page = await browser.newPage();
-        await page.goto(url);
-        const data = await page.evaluate(() => {
-            let items = document.querySelectorAll('.PM_CL_newsstand_item .PM_CL_newsstand_data');
-            let results = [];
-            items.forEach((item) => {
-                console.log('results ===========>', item);
-                let titleElement = item.querySelector('.PM_CL_newsstand_link');
-                let linkElement = item.querySelector('.PM_CL_newsstand_link');
-                results.push({
-                    title: titleElement.innerText,
-                    link: linkElement.href
-                });
-                console.log('results ===========>', results);
+    async name(url) {
+        const browser = await puppeteer.launch({ headless: false });
+        let arr = [];
+        for (let urls of url) {
+            const page = await browser.newPage();
+            await page.goto(urls, { waitUntil: 'networkidle2' });
+            const result = await page.evaluate(() => {
+                const nameElement = document.querySelector('div.instrument-price_instrument-price__xfgbB > div.text-xl > span.instrument-price_change-percent__bT4yt');
+                const newElement = document.querySelector('div.instrument-header_instrument-name__VxZ1O > h1');
+                let change_percent = nameElement
+                    ? nameElement.textContent
+                    : 'No data found';
+                let name = newElement ? newElement.textContent : 'No data found';
+                return { change_percent, name };
             });
-            return results;
-        });
+            const arrName = {
+                change_percent: result.change_percent,
+                name: result.name,
+            };
+            arr.push(arrName);
+            await page.close();
+        }
         await browser.close();
-        return data;
+        return { currentPercent: arr };
+    }
+    async createStock(createStockDTO) {
+        return;
     }
 };
 exports.BoardsService = BoardsService = __decorate([

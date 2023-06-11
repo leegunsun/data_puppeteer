@@ -1,14 +1,18 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { BoardsService } from './boards.service';
+import { createStockDTO } from './dto/boards.dto';
 
 @Controller('boards')
 export class BoardsController {
-    constructor(private boardsService : BoardsService) {
-    }
+  constructor(private boardsService: BoardsService) {}
 
-    @Get('/')
-   async test () {
-    const msg = await this.boardsService.name()
-    return {test : msg}
-   }
+  @Post('/')
+  async currentStock(@Body('url') url: string) {
+    return await this.boardsService.name(url);
+  }
+
+  @Post('/createStock')
+  async createStock(@Body() createStockDTO: createStockDTO) {
+    return await this.boardsService.createStock(createStockDTO);
+  }
 }

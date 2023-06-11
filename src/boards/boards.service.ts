@@ -1,131 +1,224 @@
-import { Injectable } from '@nestjs/common';
-import * as puppeteer from "puppeteer";
+// import { Controller, Get, Injectable } from '@nestjs/common';
+// import * as puppeteer from 'puppeteer';
+
+// @Injectable()
+// export class BoardsService {
+//   async name() {
+//     // Puppeteer를 사용해 크롤링 진행
+//     const browser = await puppeteer.launch({ headless: false });
+//     const page = await browser.newPage();
+//     await page.goto('https://intellipick.spartacodingclub.kr/');
+
+//     // 웹사이트의 데이터를 가져옴
+//     const websiteData = await page.evaluate(() => {
+//       // 데이터 선택자를 무작위로 선택, 여기서는 예시로 첫 번째 아이템을 선택하였음
+//       const randomDataSelector =
+//         '#__next > main > div > div > div > div.css-1e7pmv9 > div.css-1glohcq > div:nth-child(1)';
+
+//       const dataElement = document.querySelector(randomDataSelector);
+
+//       console.log(dataElement);
+
+//       if (dataElement) {
+//         return dataElement.textContent || 'No data found';
+//       }
+
+//       return 'No data found';
+//     });
+
+//     await browser.close();
+
+//     return websiteData;
+//   }
+// }
+
+// import { Controller, Get, Injectable } from '@nestjs/common';
+// import * as puppeteer from 'puppeteer';
+
+// @Injectable()
+// export class BoardsService {
+//   async name() {
+//     // Puppeteer를 사용해 크롤링 진행
+//     const browser = await puppeteer.launch({ headless: false });
+//     const page = await browser.newPage();
+//     await page.goto('https://intellipick.spartacodingclub.kr/');
+
+//     // 웹사이트의 데이터를 가져옴
+//     const websiteData = await page.evaluate(() => {
+//       // `<a>` 태그 선택자
+//       const linkSelector =
+//         '#__next > main > div > div > div > div.css-1e7pmv9 > div.css-1glohcq > div:nth-child(1) > a';
+
+//       // 각 `<a>` 태그에서 원하는 `div`의 값을 가져옴
+//       const linkElements = Array.from(document.querySelectorAll(linkSelector));
+
+//       return linkElements.map((linkElement) => {
+//         const divElement = linkElement.querySelector(
+//           'div.css-5k80h3 > div.css-1x39nj6',
+//         );
+//         return divElement ? divElement.textContent : 'No data found';
+//       });
+//     });
+
+//     await browser.close();
+
+//     return websiteData;
+//   }
+// }
+
+// import { Controller, Get, Injectable } from '@nestjs/common';
+// import * as puppeteer from 'puppeteer';
+
+// @Injectable()
+// export class BoardsService {
+//   async name() {
+//     const browser = await puppeteer.launch({ headless: false });
+//     const page = await browser.newPage();
+//     await page.goto('https://www.naver.com/');
+
+//     // 웹사이트의 데이터를 가져옴
+//     const nasdaqData = await page.evaluate(() => {
+//       const priceElement = document.querySelector(
+//         '#newsstand > div.ContentHeaderSubView-module__content_header_sub___Yszwk > a',
+//       );
+//       return priceElement ? priceElement.textContent : 'No data found';
+//     });
+
+//     await browser.close();
+
+//     return nasdaqData;
+//   }
+// }
+// -----
+// 실패함
+// import { Controller, Get, Injectable } from '@nestjs/common';
+// import * as puppeteer from 'puppeteer';
+
+// @Injectable()
+// export class BoardsService {
+//   async name() {
+//     const browser = await puppeteer.launch({ headless: false });
+//     const page = await browser.newPage();
+//     await page.goto('https://kr.investing.com/indices/nasdaq-composite');
+
+//     // 웹사이트의 데이터를 가져옴
+//     const nasdaqData = await page.evaluate(() => {
+//       const nameElement = document.querySelector(
+//         'h1.instrument-header_name__KQzyA',
+//       );
+//       return nameElement ? nameElement.textContent : 'No data found';
+//     });
+
+//     await browser.close();
+
+//     return nasdaqData;
+//   }
+// }
+// -----
+// import { Controller, Get, Injectable } from '@nestjs/common';
+// import * as puppeteer from 'puppeteer';
+
+// @Injectable()
+// export class BoardsService {
+//   async name() {
+//     const browser = await puppeteer.launch({ headless: false });
+//     const page = await browser.newPage();
+//     await page.goto('https://kr.investing.com/indices/nasdaq-composite');
+
+//     // 웹사이트의 데이터를 가져옴
+//     const nasdaqData = await page.evaluate(() => {
+//       const nameElement = document.querySelector(
+//         'div.instrument-price_instrument-price__xfgbB > div.text-xl.flex.items-end.flex-wrap > span.instrument-price_change-percent__bT4yt',
+//       );
+
+//       return nameElement ? nameElement.textContent : 'No data found';
+//     });
+
+//     // soxl data
+//     const soxlPage = await browser.newPage();
+//     await soxlPage.goto(
+//       'https://kr.investing.com/etfs/direxion-dly-semiconductor-bull-3x',
+//     );
+//     const soxlData = await soxlPage.evaluate(() => {
+//       const searchElement = document.querySelector(
+//         'div.instrument-price_instrument-price__xfgbB > div.text-xl.flex.items-end.flex-wrap > span.instrument-price_change-percent__bT4yt',
+//       );
+//       return searchElement ? searchElement.textContent : 'No data found';
+//     });
+
+//     // tna data
+//     const tnaPage = await browser.newPage();
+//     await tnaPage.goto(
+//       'https://kr.investing.com/etfs/direxion-daily-small-cap-bull-3x-sh',
+//     );
+
+//     const tnaData = await tnaPage.evaluate(() => {
+//       const searchElement = document.querySelector(
+//         'div.instrument-price_instrument-price__xfgbB > div.text-xl.flex.items-end.flex-wrap > span.instrument-price_change-percent__bT4yt',
+//       );
+//       return searchElement ? searchElement.textContent : 'No data found';
+//     });
+
+//     // tqqq tada
+//     const tqqqPage = await browser.newPage();
+//     await tqqqPage.goto(
+//       'https://www.investing.com/etfs/proshares-trust-ultrapro-qqq',
+//     );
+//     const tqqqData = tnaPage.evaluate(() => {
+//       const searchElement = document.querySelector(
+//         'div.instrument-price_instrument-price__xfgbB > div.text-xl.flex.items-end.flex-wrap > span.instrument-price_change-percent__bT4yt',
+//       );
+//       return searchElement ? searchElement.textContent : 'No data found';
+//     });
+
+//     await browser.close();
+
+//     return { nasdaqData, soxlData, tnaData, tqqqData };
+//   }
+// }
+import { Controller, Get, Injectable } from '@nestjs/common';
+import * as puppeteer from 'puppeteer';
+import { createStockDTO } from './dto/boards.dto';
 
 @Injectable()
 export class BoardsService {
+  async name(url: string) {
+    const browser = await puppeteer.launch({ headless: false });
+    let arr: { change_percent: string; name: string }[] = [];
 
-    async name()  {
+    for (let urls of url) {
+      const page = await browser.newPage();
+      await page.goto(urls, { waitUntil: 'networkidle2' });
 
-        const url = 'https://m.naver.com';
-          const browser = await puppeteer.launch(
-            {
-                headless: false,
-                waitForInitialPage: true,
-            }
+      const result = await page.evaluate(() => {
+        const nameElement = document.querySelector(
+          'div.instrument-price_instrument-price__xfgbB > div.text-xl > span.instrument-price_change-percent__bT4yt',
         );
-        const page = await browser.newPage();
 
-    //         // Puppeteer를 사용해 브라우저 인스턴스를 생성
-    // const browser = await puppeteer.launch();
-    // // 새 탭을 생성
-    // const page = await browser.newPage();
+        const newElement = document.querySelector(
+          'div.instrument-header_instrument-name__VxZ1O > h1',
+        );
 
+        let change_percent = nameElement
+          ? nameElement.textContent
+          : 'No data found';
+        let name = newElement ? newElement.textContent : 'No data found';
+        return { change_percent, name };
+      });
 
-        
-        await page.goto(url)
-        
-       
-        const data = await page.evaluate(() => {
-            let items = document.querySelectorAll('.PM_CL_newsstand_item .PM_CL_newsstand_data');
-            let results = [];
-          
-            items.forEach((item) => {
-                console.log('results ===========>',item)
-              let titleElement = item.querySelector('.PM_CL_newsstand_link') as HTMLElement;
-              let linkElement = item.querySelector('.PM_CL_newsstand_link') as HTMLAnchorElement;
-          
-              // 추출할 데이터 작성
-              results.push({
-                title: titleElement.innerText,
-                link: linkElement.href
-              });
-
-              console.log('results ===========>',results)
-            });
-           
-            return results;
-          });
-          
-          
-          
-      
-
-        // await page.goto(url, {waitUntil: 'networkidle2'});
-        // await page.type('#IjisUserID', `${body.studentId}`)
-        // await page.type('#IjisPassword', `${body.password}`)
-        // await Promise.all([
-        //     page.click('#ibtnLogin'),
-        //     page.waitForNavigation({waitUntil: 'networkidle2'})
-        // ]);
-
-        await browser.close();
-
-        // return result == 'https://stud.inje.ac.kr/Main.aspx';
-        return data
+      const arrName = {
+        change_percent: result.change_percent,
+        name: result.name,
+      };
+      arr.push(arrName);
+      await page.close();
     }
 
+    await browser.close();
+    return { currentPercent: arr };
+  }
+
+  async createStock(createStockDTO: createStockDTO) {
+    return;
+  }
 }
-
-
-// import {Injectable} from "@nestjs/common";
-// import * as puppeteer from "puppeteer";
-// import {UserNotFoundException} from "../../domain/errors/user.errors";
-// import {IjisLoginCommand} from "./ijis.command";
-
-// @Injectable()
-// export class InjeInformationServiceService {
-
-//     async login(body: IjisLoginCommand): Promise<boolean> {
-//         if (!await this.validateUser(body)) throw new UserNotFoundException();
-
-//         const url = 'https://stud.inje.ac.kr/';
-
-//         const browser = await puppeteer.launch(
-//             {
-//                 headless: false,
-//                 waitForInitialPage: true,
-//             }
-//         );
-//         const page = await browser.newPage();
-
-//         await page.goto(url, {waitUntil: 'networkidle2'});
-//         await page.type('#IjisUserID', `${body.studentId}`)
-//         await page.type('#IjisPassword', `${body.password}`)
-//         await Promise.all([
-//             page.click('#ibtnLogin'),
-//             page.waitForNavigation({waitUntil: 'networkidle2'})
-//         ]);
-
-//         const result = page.url();
-//         await browser.close();
-
-//         return result == 'https://stud.inje.ac.kr/Main.aspx';
-
-//     }
-
-//     async validateUser(body: {studentId: string, password: string}): Promise<boolean> {
-//         const url = 'https://edu.inje.ac.kr/default.aspx';
-//         const browser = await puppeteer.launch(
-//             {
-//                 headless: false,
-//                 waitForInitialPage: true,
-//             }
-//         );
-//         const page = await browser.newPage();
-
-//         await page.goto(url, {waitUntil: 'networkidle2'});
-//         if (await page.$('#popupLayer58 > div.popup_footer > div > div > a') !== null) await page.click('#popupLayer58 > div.popup_footer > div > div > a');
-//         await Promise.all([
-//             await page.type('#txtUserID', `${body.studentId}`),
-//             await page.type('#txtPasswd', `${body.password}`)
-//         ]);
-//         await Promise.all([
-//             page.click('#btn로그인', {delay: 1000}),
-//             page.waitForNavigation({waitUntil: 'networkidle2'})
-//         ]);
-//         const result = page.url();
-//         await browser.close();
-
-//         return result == 'https://edu.inje.ac.kr/student/default.aspx';
-//     }
-// }
