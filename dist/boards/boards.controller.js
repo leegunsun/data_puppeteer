@@ -20,13 +20,38 @@ let BoardsController = exports.BoardsController = class BoardsController {
     constructor(boardsService) {
         this.boardsService = boardsService;
     }
+    async findOneLastStock() {
+        return this.boardsService.getOneStock();
+    }
+    async findAllStock(FindAllStockDTO) {
+        return this.boardsService.getAllStock(FindAllStockDTO.stockName);
+    }
     async currentStock(url) {
         return await this.boardsService.name(url);
     }
     async createStock(createStockDTO) {
         return await this.boardsService.createStock(createStockDTO);
     }
+    async editStock(stockId, createStockDTO) {
+        return await this.boardsService.editStock(stockId, createStockDTO);
+    }
+    async deleteStock(stockId) {
+        return await this.boardsService.deleteStock(stockId);
+    }
 };
+__decorate([
+    (0, common_1.Get)('/getlastone'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], BoardsController.prototype, "findOneLastStock", null);
+__decorate([
+    (0, common_1.Get)('/getAll'),
+    __param(0, (0, common_1.Query)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [boards_dto_1.FindAllStockDTO]),
+    __metadata("design:returntype", Promise)
+], BoardsController.prototype, "findAllStock", null);
 __decorate([
     (0, common_1.Post)('/'),
     __param(0, (0, common_1.Body)('url')),
@@ -36,11 +61,28 @@ __decorate([
 ], BoardsController.prototype, "currentStock", null);
 __decorate([
     (0, common_1.Post)('/createStock'),
+    (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [boards_dto_1.createStockDTO]),
     __metadata("design:returntype", Promise)
 ], BoardsController.prototype, "createStock", null);
+__decorate([
+    (0, common_1.Put)('/editStock'),
+    (0, common_1.UsePipes)(new common_1.ValidationPipe()),
+    __param(0, (0, common_1.Body)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, boards_dto_1.createStockDTO]),
+    __metadata("design:returntype", Promise)
+], BoardsController.prototype, "editStock", null);
+__decorate([
+    (0, common_1.Delete)('/deleteStock'),
+    __param(0, (0, common_1.Body)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], BoardsController.prototype, "deleteStock", null);
 exports.BoardsController = BoardsController = __decorate([
     (0, common_1.Controller)('boards'),
     __metadata("design:paramtypes", [boards_service_1.BoardsService])

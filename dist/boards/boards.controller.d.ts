@@ -1,36 +1,14 @@
-/// <reference types="mongoose/types/aggregate" />
-/// <reference types="mongoose/types/callback" />
-/// <reference types="mongoose/types/collection" />
-/// <reference types="mongoose/types/connection" />
-/// <reference types="mongoose/types/cursor" />
-/// <reference types="mongoose/types/document" />
-/// <reference types="mongoose/types/error" />
-/// <reference types="mongoose/types/expressions" />
-/// <reference types="mongoose/types/helpers" />
-/// <reference types="mongoose/types/middlewares" />
-/// <reference types="mongoose/types/indexes" />
-/// <reference types="mongoose/types/models" />
-/// <reference types="mongoose/types/mongooseoptions" />
-/// <reference types="mongoose/types/pipelinestage" />
-/// <reference types="mongoose/types/populate" />
-/// <reference types="mongoose/types/query" />
-/// <reference types="mongoose/types/schemaoptions" />
-/// <reference types="mongoose/types/schematypes" />
-/// <reference types="mongoose/types/session" />
-/// <reference types="mongoose/types/types" />
-/// <reference types="mongoose/types/utility" />
-/// <reference types="mongoose/types/validation" />
-/// <reference types="mongoose/types/virtuals" />
-/// <reference types="mongoose" />
-/// <reference types="mongoose/types/inferschematype" />
 import { BoardsService } from './boards.service';
-import { createStockDTO } from './dto/boards.dto';
+import { FindAllStockDTO, createStockDTO } from './dto/boards.dto';
 import { BoardsData } from './interface/boards.interface';
+import { StockDocument } from './schema/boards.schema';
 export declare class BoardsController {
     private boardsService;
     constructor(boardsService: BoardsService);
+    findOneLastStock(): Promise<StockDocument>;
+    findAllStock(FindAllStockDTO: FindAllStockDTO): Promise<StockDocument[]>;
     currentStock(url: string[]): Promise<BoardsData>;
-    createStock(createStockDTO: createStockDTO): Promise<import("mongoose").Document<unknown, {}, import("./interface/boards.interface").StockDocument> & Omit<import("./interface/boards.interface").Stock & import("mongoose").Document<any, any, any> & {
-        _id: import("mongoose").Types.ObjectId;
-    }, never>>;
+    createStock(createStockDTO: createStockDTO): Promise<StockDocument>;
+    editStock(stockId: string, createStockDTO: createStockDTO): Promise<StockDocument | null>;
+    deleteStock(stockId: string): Promise<StockDocument | null>;
 }

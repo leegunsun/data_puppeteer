@@ -23,13 +23,20 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { createStockDTO } from './dto/boards.dto';
-import { BoardsData, StockDocument, Stock } from './interface/boards.interface';
+import { BoardsData } from './interface/boards.interface';
 import { Model } from 'mongoose';
+import { StockDocument, Stock } from './schema/boards.schema';
 export declare class BoardsService {
     private stockModel;
     constructor(stockModel: Model<StockDocument>);
     name(url: string[]): Promise<BoardsData>;
-    createStock(createStockDTO: createStockDTO): Promise<import("mongoose").Document<unknown, {}, StockDocument> & Omit<Stock & import("mongoose").Document<any, any, any> & {
+    createStock(createStockDTO: createStockDTO): Promise<StockDocument>;
+    getOneStock(): Promise<import("mongoose").Document<unknown, {}, StockDocument> & Omit<Stock & import("mongoose").Document<any, any, any> & {
         _id: import("mongoose").Types.ObjectId;
     }, never>>;
+    getAllStock(stockName: string): Promise<(import("mongoose").Document<unknown, {}, StockDocument> & Omit<Stock & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never>)[]>;
+    editStock(stockId: string, createStockDTO: createStockDTO): Promise<StockDocument | null>;
+    deleteStock(stockId: string): Promise<StockDocument | null>;
 }

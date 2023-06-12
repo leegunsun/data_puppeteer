@@ -1,12 +1,14 @@
-import { Expose } from 'class-transformer';
-import { IsString, IsNumber } from 'class-validator';
+import { PickType } from '@nestjs/mapped-types';
+import { IsString, IsNumber, IsOptional, IsIn } from 'class-validator';
+import { Stock } from '../schema/boards.schema';
 
-export class createStockDTO {
-  @Expose()
-  @IsString()
-  stockName: string;
+export class createStockDTO extends PickType(Stock, [
+  'stockName',
+  'current_value',
+]) {}
 
-  @Expose()
-  @IsNumber()
-  current_value: number;
+export class FindAllStockDTO {
+  @IsOptional()
+  @IsIn(['SOXL', 'TNA', 'TQQQ'])
+  stockName?: string;
 }

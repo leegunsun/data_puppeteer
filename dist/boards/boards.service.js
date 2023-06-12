@@ -16,8 +16,8 @@ exports.BoardsService = void 0;
 const common_1 = require("@nestjs/common");
 const puppeteer = require("puppeteer");
 const mongoose_1 = require("@nestjs/mongoose");
-const boards_interface_1 = require("./interface/boards.interface");
 const mongoose_2 = require("mongoose");
+const boards_schema_1 = require("./schema/boards.schema");
 let BoardsService = exports.BoardsService = class BoardsService {
     constructor(stockModel) {
         this.stockModel = stockModel;
@@ -52,13 +52,31 @@ let BoardsService = exports.BoardsService = class BoardsService {
         return { currentPercent: arr };
     }
     async createStock(createStockDTO) {
-        const createtest = new this.stockModel(createStockDTO);
-        return createtest.save();
+        const createStock = new this.stockModel(createStockDTO);
+        return createStock.save();
+    }
+    async getOneStock() {
+        return this.stockModel.findOne().sort({ createdAt: 'desc' });
+    }
+    async getAllStock(stockName) {
+        if (stockName) {
+            return this.stockModel.find({ stockName });
+        }
+        return this.stockModel.find();
+    }
+    async editStock(stockId, createStockDTO) {
+        const updateData = createStockDTO;
+        return this.stockModel.findByIdAndUpdate(stockId, updateData, {
+            new: true,
+        });
+    }
+    async deleteStock(stockId) {
+        return this.stockModel.findByIdAndDelete(stockId);
     }
 };
 exports.BoardsService = BoardsService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_1.InjectModel)(boards_interface_1.Stock.name)),
+    __param(0, (0, mongoose_1.InjectModel)(boards_schema_1.Stock.name)),
     __metadata("design:paramtypes", [mongoose_2.Model])
 ], BoardsService);
 //# sourceMappingURL=boards.service.js.map

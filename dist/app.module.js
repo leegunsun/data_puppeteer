@@ -12,6 +12,8 @@ const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const boards_module_1 = require("./boards/boards.module");
 const mongoose_1 = require("@nestjs/mongoose");
+const dotenv_1 = require("dotenv");
+(0, dotenv_1.config)();
 let AppModule = exports.AppModule = class AppModule {
 };
 exports.AppModule = AppModule = __decorate([

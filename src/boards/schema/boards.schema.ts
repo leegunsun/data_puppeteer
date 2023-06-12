@@ -1,13 +1,30 @@
-// import { createStock } from '../interface/boards.interface';
-// import * as mongoose from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { IsString, IsNumber, IsOptional } from 'class-validator';
+import { Document } from 'mongoose';
 
-// export const CreateStockSchema = new mongoose.Schema<createStock>(
-//   {
-//     stockName: { type: String, required: true },
-//     yesterday_value: { type: Number, required: false },
-//     current_value: { type: Number, required: false },
-//     fluctuation_rate: { type: Number, required: false },
-//     profit: { type: Number, required: false },
-//   },
-//   { timestamps: true },
-// );
+export type StockDocument = Stock & Document;
+
+@Schema({ timestamps: true })
+export class Stock {
+  @Prop({ required: true })
+  @IsString()
+  stockName: string;
+
+  @Prop()
+  @IsNumber()
+  yesterday_value: number;
+
+  @Prop()
+  @IsNumber()
+  current_value: number;
+
+  @Prop()
+  @IsNumber()
+  fluctuation_rate: number;
+
+  @Prop()
+  @IsNumber()
+  profit: number;
+}
+
+export const CreateStockSchema = SchemaFactory.createForClass(Stock);
