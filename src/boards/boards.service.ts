@@ -61,7 +61,7 @@ export class BoardsService {
   }
 
   /**
-   * 주식을 추가
+   * 주식을 추가합니다.
    * @param createStockDTO
    * @returns
    */
