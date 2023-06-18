@@ -39,4 +39,7 @@ export declare class BoardsService {
     }, never>)[]>;
     editStock(stockId: string, createStockDTO: createStockDTO): Promise<StockDocument | null>;
     deleteStock(stockId: string): Promise<StockDocument | null>;
+    toDayEnterprise(url: string): Promise<{
+        Today: any[];
+    }>;
 }

@@ -117,4 +117,44 @@ export class BoardsService {
   async deleteStock(stockId: string): Promise<StockDocument | null> {
     return this.stockModel.findByIdAndDelete(stockId);
   }
+
+  async toDayEnterprise(url: string) {
+    const browser = await puppeteer.launch({
+      headless: false,
+    });
+
+    const page = await browser.newPage();
+    await page.goto(url, { waitUntil: 'networkidle2' });
+
+    let items = [];
+    try {
+      let previousHeight;
+      while (items.length < 100) {
+        // Adjust this number, according to your requirement
+        items = await page.evaluate(() => {
+          const companyNames = Array.from(
+            document.querySelectorAll(
+              '#__next > div.JobList_cn__t_THp > div > div > div > ul > li > div > a > div > div.job-card-company-name',
+            ),
+            (element) => element.textContent.trim(),
+          );
+          return companyNames;
+        });
+
+        previousHeight = await page.evaluate('document.body.scrollHeight');
+        await page.evaluate('window.scrollTo(0, document.body.scrollHeight)');
+        await page.waitForFunction(
+          `document.body.scrollHeight > ${previousHeight}`,
+        );
+        await page.waitForTimeout(3000); // Increase timeout to ensure all items are loaded
+      }
+    } catch (e) {
+      console.log(e);
+    }
+
+    await page.close();
+    await browser.close();
+
+    return { Today: items };
+  }
 }

@@ -11,4 +11,7 @@ export declare class BoardsController {
     createStock(createStockDTO: createStockDTO): Promise<StockDocument>;
     editStock(stockId: string, createStockDTO: createStockDTO): Promise<StockDocument | null>;
     deleteStock(stockId: string): Promise<StockDocument | null>;
+    toDayEnterprise(url: string): Promise<{
+        Today: any[];
+    }>;
 }

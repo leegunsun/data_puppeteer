@@ -59,4 +59,9 @@ export class BoardsController {
   ): Promise<StockDocument | null> {
     return await this.boardsService.deleteStock(stockId);
   }
+
+  @Post('/today')
+  async toDayEnterprise(@Body('url') url: string) {
+    return this.boardsService.toDayEnterprise(url);
+  }
 }

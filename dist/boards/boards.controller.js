@@ -38,6 +38,9 @@ let BoardsController = exports.BoardsController = class BoardsController {
     async deleteStock(stockId) {
         return await this.boardsService.deleteStock(stockId);
     }
+    async toDayEnterprise(url) {
+        return this.boardsService.toDayEnterprise(url);
+    }
 };
 __decorate([
     (0, common_1.Get)('/getlastone'),
@@ -83,6 +86,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], BoardsController.prototype, "deleteStock", null);
+__decorate([
+    (0, common_1.Post)('/today'),
+    __param(0, (0, common_1.Body)('url')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], BoardsController.prototype, "toDayEnterprise", null);
 exports.BoardsController = BoardsController = __decorate([
     (0, common_1.Controller)('boards'),
     __metadata("design:paramtypes", [boards_service_1.BoardsService])
