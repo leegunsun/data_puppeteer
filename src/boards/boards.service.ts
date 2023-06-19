@@ -130,7 +130,7 @@ export class BoardsService {
     try {
       let previousHeight;
       while (items.length < 100) {
-        // Adjust this number, according to your requirement
+        // Adjust this number according to your requirement
         items = await page.evaluate(() => {
           const companyNames = Array.from(
             document.querySelectorAll(
