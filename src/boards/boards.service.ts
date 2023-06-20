@@ -14,6 +14,7 @@ export class BoardsService {
 
   /**
    * url에 맞는 데이터를 크롤링
+   * 인베스팅 사용
    * 1. 현재 호가
    * 2. 주식 이름
    * @param url
@@ -118,6 +119,11 @@ export class BoardsService {
     return this.stockModel.findByIdAndDelete(stockId);
   }
 
+  /**
+   * 원티드 크롤링
+   * @param url
+   * @returns
+   */
   async toDayEnterprise(url: string) {
     const browser = await puppeteer.launch({
       headless: false,
