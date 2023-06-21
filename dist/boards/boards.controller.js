@@ -12,13 +12,44 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BoardsController = void 0;
+exports.BoardsController = exports.GoodLuck = exports.UserId = void 0;
 const common_1 = require("@nestjs/common");
 const boards_service_1 = require("./boards.service");
 const boards_dto_1 = require("./dto/boards.dto");
+const boards_interceptor_1 = require("./interceptor/boards.interceptor");
+const cache_boards_1 = require("./interceptor/cache.boards");
+function deco(val) {
+    console.log('out');
+    return function cd(target, propKey, propDesc) {
+    };
+}
+exports.UserId = (0, common_1.createParamDecorator)((data, ctx) => {
+    const request = ctx.switchToHttp().getResponse();
+    return request.user.id;
+});
+function GoodLuck() {
+    return (target, propertyKey, descriptor) => {
+        const originalMethod = descriptor.value;
+        descriptor.value = function (...args) {
+            console.log('good luck');
+            return originalMethod.apply(this, args);
+        };
+        return descriptor;
+    };
+}
+exports.GoodLuck = GoodLuck;
+let count = 0;
 let BoardsController = exports.BoardsController = class BoardsController {
     constructor(boardsService) {
         this.boardsService = boardsService;
+    }
+    async test() {
+        count++;
+        console.log('gdg');
+        return { count };
+    }
+    async test2() {
+        return { gigi: '안녕' };
     }
     async findOneLastStock() {
         return this.boardsService.getOneStock();
@@ -42,6 +73,20 @@ let BoardsController = exports.BoardsController = class BoardsController {
         return this.boardsService.toDayEnterprise(url);
     }
 };
+__decorate([
+    (0, common_1.Get)('test'),
+    deco('good'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], BoardsController.prototype, "test", null);
+__decorate([
+    (0, common_1.Get)('test2'),
+    (0, common_1.UseInterceptors)(boards_interceptor_1.GoodLuckIntercepotor, cache_boards_1.CacheInterceptor),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], BoardsController.prototype, "test2", null);
 __decorate([
     (0, common_1.Get)('/getlastone'),
     __metadata("design:type", Function),

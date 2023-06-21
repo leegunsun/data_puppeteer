@@ -9,15 +9,72 @@ import {
   ValidationPipe,
   Param,
   Query,
+  createParamDecorator,
+  ExecutionContext,
+  UseInterceptors,
 } from '@nestjs/common';
 import { BoardsService } from './boards.service';
 import { FindAllStockDTO, createStockDTO } from './dto/boards.dto';
 import { BoardsData } from './interface/boards.interface';
 import { StockDocument } from './schema/boards.schema';
+import { GoodLuckIntercepotor } from './interceptor/boards.interceptor';
+import { CacheInterceptor } from './interceptor/cache.boards';
+
+function deco(val: string) {
+  console.log('out');
+  return function cd(
+    target: any,
+    propKey: string,
+    propDesc: PropertyDescriptor,
+  ) {
+    // console.log(val);
+  };
+}
+
+export const UserId = createParamDecorator(
+  (data: unknown, ctx: ExecutionContext) => {
+    const request = ctx.switchToHttp().getResponse();
+    return request.user.id;
+  },
+);
+
+export function GoodLuck(): MethodDecorator {
+  return (
+    target: Object,
+    propertyKey: string | symbol,
+    descriptor: PropertyDescriptor,
+  ) => {
+    const originalMethod = descriptor.value;
+
+    descriptor.value = function (...args: any[]) {
+      console.log('good luck');
+      return originalMethod.apply(this, args);
+    };
+
+    return descriptor;
+  };
+}
+
+let count = 0;
 
 @Controller('boards')
 export class BoardsController {
   constructor(private boardsService: BoardsService) {}
+
+  @Get('test')
+  @deco('good')
+  // @GoodLuck()
+  async test() {
+    count++;
+    console.log('gdg');
+    return { count };
+  }
+
+  @Get('test2')
+  @UseInterceptors(GoodLuckIntercepotor, CacheInterceptor)
+  async test2() {
+    return { gigi: '안녕' };
+  }
 
   @Get('/getlastone')
   async findOneLastStock(): Promise<StockDocument> {
