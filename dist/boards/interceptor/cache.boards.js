@@ -21,6 +21,7 @@ let CacheInterceptor = exports.CacheInterceptor = class CacheInterceptor {
         if (cacheValue) {
             if (Date.now() < cacheValue.expirationTime) {
                 console.log('in?');
+                console.log(this.cache.get(key));
                 console.log(`Execution time: ${Date.now() - now}ms`);
                 return (0, rxjs_1.of)(cacheValue.data);
             }
@@ -30,8 +31,6 @@ let CacheInterceptor = exports.CacheInterceptor = class CacheInterceptor {
             const expirationTime = Date.now() + 1000 * 60 * 5;
             this.cache.set(key, { data, expirationTime });
             console.log(`Execution time: ${Date.now() - now}ms`);
-            console.log(key);
-            console.log(this.cache.get(key));
         }));
     }
 };

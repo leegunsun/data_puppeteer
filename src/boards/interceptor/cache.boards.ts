@@ -22,6 +22,7 @@ export class CacheInterceptor implements NestInterceptor {
     if (cacheValue) {
       if (Date.now() < cacheValue.expirationTime) {
         console.log('in?');
+        console.log(this.cache.get(key));
         console.log(`Execution time: ${Date.now() - now}ms`);
         return of(cacheValue.data);
       }
@@ -33,8 +34,6 @@ export class CacheInterceptor implements NestInterceptor {
         const expirationTime = Date.now() + 1000 * 60 * 5;
         this.cache.set(key, { data, expirationTime });
         console.log(`Execution time: ${Date.now() - now}ms`);
-        console.log(key);
-        console.log(this.cache.get(key));
       }),
     );
   }
