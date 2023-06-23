@@ -19,6 +19,7 @@ export class CacheInterceptor implements NestInterceptor {
     const cacheValue = this.cache.get(key);
     const now = Date.now();
 
+    // 데이터 반환
     if (cacheValue) {
       if (Date.now() < cacheValue.expirationTime) {
         console.log('in?');
