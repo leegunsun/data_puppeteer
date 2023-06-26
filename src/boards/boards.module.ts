@@ -14,7 +14,8 @@ import { GoodLuckIntercepotor } from './interceptor/boards.interceptor';
     //   provide: APP_INTERCEPTOR,
     //   useClass: GoodLuckIntercepotor,
     // },
-    // RegExp 완료
+    // RegExp 완료,
+    //development support
   ],
 })
 export class BoardsModule {}
