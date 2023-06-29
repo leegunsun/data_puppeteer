@@ -4,9 +4,22 @@ import { BoardsService } from './boards.service';
 import { StockSchema } from './model/boards.model';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { GoodLuckIntercepotor } from './interceptor/boards.interceptor';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
-  imports: [StockSchema],
+  imports: [
+    StockSchema,
+    ClientsModule.register([
+      {
+        name: 'TEST_SERVICE',
+        transport: Transport.TCP,
+        options: {
+          host: 'localhost',
+          port: 3001,
+        },
+      },
+    ]),
+  ],
   controllers: [BoardsController],
   providers: [
     BoardsService,

@@ -19,6 +19,7 @@ import { BoardsData } from './interface/boards.interface';
 import { StockDocument } from './schema/boards.schema';
 import { GoodLuckIntercepotor } from './interceptor/boards.interceptor';
 import { CacheInterceptor } from './interceptor/cache.boards';
+import { Client, Transport, ClientProxy } from '@nestjs/microservices';
 
 function deco(val: string) {
   console.log('out');
@@ -59,6 +60,11 @@ let count = 0;
 
 @Controller('boards')
 export class BoardsController {
+  @Client({
+    transport: Transport.TCP,
+    options: { host: 'localhost', port: 3001 },
+  })
+  client: ClientProxy;
   constructor(private boardsService: BoardsService) {}
 
   @Get('test')
