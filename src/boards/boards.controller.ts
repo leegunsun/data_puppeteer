@@ -28,7 +28,7 @@ function deco(val: string) {
     propKey: string,
     propDesc: PropertyDescriptor,
   ) {
-    // console.log(val); 알고리즘 지원 tap,map blog
+    // console.log(val); 알고리즘 지원 tap,map blog, wanted app
   };
 }
 
